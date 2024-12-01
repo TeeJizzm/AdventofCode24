@@ -1,6 +1,9 @@
 ## Provided by github.com/githgub/gitignore
 ###########################################
 
+# Removing account-specific info
+in.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
