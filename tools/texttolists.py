@@ -11,6 +11,13 @@ def to2dArray(text, group="\n", item=","):
     # return list of lists
     return lists
 
+def to2dInts(text, group="\n", item=","):
+
+    ints = [[int(x) for x in line.split(item)] for line in toLines(text=text, group=group)]
+
+    # Return 2d list of ints
+    return ints
+
 def toLines(text, group="\n"):
     
     return text.split(str(group))

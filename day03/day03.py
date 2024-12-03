@@ -12,6 +12,8 @@ import os
 
 import tools.texttolists as tl
 
+import re
+
 ############################
 # Variables
 
@@ -21,11 +23,33 @@ import tools.texttolists as tl
 # Functions
 
 def day03(text):
-    print("Day 03 - *NAME*")
+
+    print("Day 03 - Mull it Over")
     
-    part1, part2 = text, ''
+    part1, part2 = 0,0
     
-    
+    muls = re.findall(r"mul\(\d{1,3},\d{1,3}\)", text)
+
+    instructions = re.findall(r"(mul\(\d{1,3},\d{1,3}\)|do\(\)|don't\(\))", text)
+
+    print(instructions)
+
+
+    do = True
+    for inst in instructions:
+        if re.search(r"mul", inst) and do: 
+            x, y = re.findall(r"\d{1,3}",inst)
+
+            part2 += int(x) * int(y)
+        elif re.search(r"don't", inst):
+            do = False
+        elif re.search(r"do\(\)", inst):
+            do = True
+
+    for mul in muls:
+        x, y = re.findall(r"\d{1,3}",mul)
+
+        part1 += int(x) * int(y)
     
     return part1, part2
 
@@ -37,8 +61,8 @@ if __name__ == "__main__":
     
     # Change file
     #######
-    file = "ex.txt"
-    #file = "in.txt"
+    #file = "ex.txt"
+    file = "in.txt"
     #######
     
     # Get absolute filepath of file
