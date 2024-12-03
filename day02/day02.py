@@ -12,6 +12,10 @@ import os
 
 import tools.texttolists as tl
 
+import numpy as np
+
+from itertools import pairwise as pw
+
 ############################
 # Variables
 
@@ -20,13 +24,67 @@ import tools.texttolists as tl
 ############################
 # Functions
 
+def isSafe(x, y) -> bool:
+
+    #print("Current:", curr, "Testing:", test)
+    if x == 0:
+        return False
+    elif x < -3 or x > 3:
+        return False
+    elif x * y < 0:
+        return False
+    
+    return True
+        
+def checkReport(report) -> bool:
+
+    print("Report:", report)
+
+
+    diffs = np.diff(report[:])
+    #print("Diffs: ", diffs)
+
+    if not isSafe(diffs[0], diffs[0]):
+        return False
+    
+
+    for idx, curr in enumerate(diffs[:-1], start=1):
+        next = diffs[idx]
+        #print(curr, next)
+        #print(check)
+        if not isSafe(next, curr):
+            return False
+            
+    return True
+
+def checkReportBadLevel(report) -> bool:
+
+    if checkReport(report):
+        return True
+    else:
+        for i in range(len(report)):
+            print(i)
+            rep = report[:]
+            del rep[i]
+            if checkReport(rep):
+                return True
+
+    return False
+
+
 def day02(text):
     print("Day 02 - Red-Nosed Reports")
     
-    part1, part2 = text, ''
+    part1, part2 = 0, 0
     
-    
-    
+    # Parsing
+
+    reports = tl.to2dInts(text,"\n"," ")
+    #print(reports)
+
+    part1 = sum([int(checkReport(report)) for report in reports])
+    part2 = sum([int(checkReportBadLevel(report)) for report in reports])
+
     return part1, part2
 
 ############################
@@ -38,7 +96,7 @@ if __name__ == "__main__":
     # Change file
     #######
     file = "ex.txt"
-    #file = "in.txt"
+    file = "in.txt"
     #######
     
     # Get absolute filepath of file
