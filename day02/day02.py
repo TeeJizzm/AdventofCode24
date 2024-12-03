@@ -38,20 +38,13 @@ def isSafe(x, y) -> bool:
         
 def checkReport(report) -> bool:
 
-    print("Report:", report)
-
-
     diffs = np.diff(report[:])
-    #print("Diffs: ", diffs)
 
     if not isSafe(diffs[0], diffs[0]):
         return False
     
-
     for idx, curr in enumerate(diffs[:-1], start=1):
         next = diffs[idx]
-        #print(curr, next)
-        #print(check)
         if not isSafe(next, curr):
             return False
             
@@ -63,7 +56,6 @@ def checkReportBadLevel(report) -> bool:
         return True
     else:
         for i in range(len(report)):
-            print(i)
             rep = report[:]
             del rep[i]
             if checkReport(rep):
