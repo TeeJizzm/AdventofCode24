@@ -3,18 +3,18 @@
 
 ###########################
 
-def padArray(grid, padding=2):
+def padArray(grid, padding=2, pad="."):
 
     cols = padding + len(grid[0]) + padding
 
     for row in grid:
         for _ in range(padding):
-            row.insert(0, ".")
-            row.append(".")
+            row.insert(0, pad)
+            row.append(pad)
 
     for _ in range(padding):
-        grid.insert(0, ["."]*cols)
-        grid.append(["."]*cols)
+        grid.insert(0, [pad]*cols)
+        grid.append([pad]*cols)
 
     return grid
 

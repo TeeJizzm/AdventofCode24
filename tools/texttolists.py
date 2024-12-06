@@ -3,17 +3,22 @@
 
 ###########################
 
-def to2dArray(text, group="\n", item=","):
+def toGrid(text):
+
+    return [list(line) for line in toLines(text, "\n")]
+
+
+def to2dArray(text, group="\n", sep=","):
 
     # Split text into groups, split groups into items
-    lists = [group.split(str(item)) for group in text.split(str(group))]
+    lists = [line.split(str(sep)) for line in toLines(text, group)]
         
     # return list of lists
     return lists
 
 def to2dInts(text, group="\n", item=","):
 
-    ints = [[int(x) for x in line.split(item)] for line in toLines(text=text, group=group)]
+    ints = [[int(x) for x in line.split(item)] for line in toLines(text, group)]
 
     # Return 2d list of ints
     return ints

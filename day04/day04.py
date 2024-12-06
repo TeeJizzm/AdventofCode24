@@ -48,7 +48,7 @@ def day04(text):
     padding = len(WORD) -1
 
     part1, part2 = 0, 0
-    grid = grids.padArray([list(line) for line in tl.toLines(text)], padding)
+    grid = grids.padArray(tl.toGrid(text), padding)
 
     part1 = grids.findWord(grid, WORD)
     part2 = findXMAS(grid)
