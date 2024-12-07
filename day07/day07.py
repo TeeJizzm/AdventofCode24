@@ -12,20 +12,84 @@ import os
 
 import tools.texttolists as tl
 
+from itertools import product
+
 ############################
 # Variables
 
+signsTwo = [
+    "p", # plus
+    "t", # times
+    "c"  # concatenation
+]
 
+signsOne = [
+    "p", # plus
+    "t"  # times
+]
 
 ############################
 # Functions
 
+def calc(a, b, s):
+
+    if s == "p":
+        return int(a) + int(b)
+    elif s == "m":
+        return int(a) - int(b)
+    elif s == "t":
+        return int(a) * int(b)
+    elif s == "d":
+        return int(a) / int(b)
+    elif s == "c":
+        return (str(a) + str(b))
+    else:
+        return 0
+
+def reduceEq(nums, ops):
+
+    for i in range(len(ops)):
+        #print(nums[0], ops[i], nums[1])
+        a = nums.pop(0)
+        nums[0] = calc(a, nums[0], ops[i])
+
+    #print("end:", nums, ops)
+    return int(nums[0])
+
+
+def findAnswer(nums, total, signs=signsOne):
+
+    #print(total, nums)
+    for ops in product(signs, repeat=len(nums)-1):    
+        if reduceEq(nums[:], ops[:]) == int(total):
+            #print("correct:", nums, ops)
+            return int(total)
+        
+    return 0
+
+def answers(equations):
+    ansOne, ansTwo = 0, 0
+
+    for equation in equations:
+
+        total, nums = tl.toLines(equation, ": ")
+        nums = tl.toLines(nums, " ")
+
+        ansOne += findAnswer(nums,total)
+        ansTwo += findAnswer(nums, total, signsTwo)
+        
+
+    return ansOne, ansTwo
+
+
 def day07(text):
-    print("Day 07 - *NAME*")
+    print("Day 07 - Bridge Repair")
     
-    part1, part2 = text, ''
+    part1, part2 = 0,0
     
-    
+    equations = tl.toLines(text)
+
+    part1, part2 = answers(equations)
     
     return part1, part2
 
@@ -38,7 +102,7 @@ if __name__ == "__main__":
     # Change file
     #######
     file = "ex.txt"
-    #file = "in.txt"
+    file = "in.txt"
     #######
     
     # Get absolute filepath of file
