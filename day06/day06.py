@@ -69,8 +69,6 @@ def createPath(grid, start, dir):
     return visited
 
 def findLoop(grid, start, dir):
-    #visited = []
-    #directions = []
 
     rcd = []
 
@@ -89,33 +87,19 @@ def findLoop(grid, start, dir):
             print("Visited before:",x,y,dir)
             return True
 
-        #if (x_n,y_n) in set(visited):
-            #for i in range(len([idx for idx, visit in enumerate(visited) if visit == (x,y) and directions[idx] == dir])):
-                #print(set(visited))
-                #if visited[i] == (x,y) and directions[i] == dir:
-                
-                    #print(f"Visited {x_n},{y_n} while facing {dir} before.")
-                    #return True
-
         next_square = grid[x_n][y_n]
 
         #print((x,y), dir, next_square)
 
         if next_square == "~":
-            #visited.append((x,y))
-            #directions.append(dir)
             return False
         elif next_square == "#":
             dir = changeDir(dir)
-            #visited.append((x,y))
-            #directions.append(dir)
             rcd.append((x,y,dir))
         else: # next_square == "." or in dirs
             
             x, y = x_n, y_n
             
-            #visited.append((x,y))
-            #directions.append(dir)
             rcd.append((x,y,dir))
 
         #print(visited[-1], directions[-1])
