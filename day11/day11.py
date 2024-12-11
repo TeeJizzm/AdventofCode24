@@ -12,6 +12,8 @@ import os
 
 import tools.texttolists as tl
 
+from collections import defaultdict as ddict
+
 ############################
 # Variables
 
@@ -20,13 +22,50 @@ import tools.texttolists as tl
 ############################
 # Functions
 
+def processStone(stones):
+    
+    output = ddict(int)
+
+    for stone, quantity in stones.items():
+
+        if stone == 0:
+            output[1] += quantity
+        elif len(str(stone)) % 2 == 0:
+            output[int(str(stone)[:len(str(stone))//2])] += quantity
+            output[int(str(stone)[len(str(stone))//2:])] += quantity
+        else:
+            output[stone * 2024] += quantity
+
+
+    return output
+
+
+def calcBlinks(stones, n):
+
+    for i in range(n):
+        stones = processStone(stones)
+        print(i, stones)
+
+    return sum(stones.values())
+
+
 def day11(text):
-    print("Day 11 - *NAME*")
+    print("Day 11 - Plutonian Pebbles")
     
-    part1, part2 = text, ''
+    part1, part2 = 0, 0
     
-    
-    
+    initial = [int(x) for x in text.split(" ")]
+
+    print(initial)
+
+    dictionary = ddict(int)
+
+    for i in range(len(initial)):
+        dictionary[initial[i]] = 1
+
+    part1 = calcBlinks(dictionary, 25)
+    #part2 = calcBlinks(dictionary, 75)
+
     return part1, part2
 
 ############################
