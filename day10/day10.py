@@ -11,22 +11,65 @@
 import os
 
 import tools.texttolists as tl
+import tools.grids as grids
 
 ############################
 # Variables
 
-
+DIRS = [
+    (0, 1),  # E
+    (1, 0),  # S
+    (0, -1), # W
+    (-1, 0)  # N
+]
 
 ############################
 # Functions
 
+def navigate(grid, loc, val):
+
+    nines = []
+
+    row, col = loc
+
+    for dr, dc in DIRS:
+        l = grid[row+dr][col+dc]
+
+        if l.isdigit() == True:
+            if int(l) == val+1 != 9:
+                nines += navigate(grid, (row+dr, col+dc), val+1)
+            elif int(l) == val+1 == 9:
+                nines += [(row+dr, col+dc)]
+                #print(nines)
+
+    return nines
+
+def findTrails(grid):
+
+    count, count2 = 0, 0
+    zeroes = grids.findLocs(grid[:], "0")
+
+    #print(zeroes)
+
+    for zero in zeroes:
+
+        nines = navigate(grid, zero, 0)
+        count += len(set(nines))
+        count2 += len(nines)
+        #print(nines)
+
+    return count, count2
+
 def day10(text):
-    print("Day 10 - *NAME*")
+    print("Day 10 - Hoof It")
     
-    part1, part2 = text, ''
+    part1, part2 = 0, 0
     
-    
-    
+    grid = grids.padArray(tl.toGrid(text), 1)
+
+    part1, part2 = findTrails(grid)
+
+
     return part1, part2
 
 ############################
@@ -38,7 +81,7 @@ if __name__ == "__main__":
     # Change file
     #######
     file = "ex.txt"
-    #file = "in.txt"
+    file = "in.txt"
     #######
     
     # Get absolute filepath of file
