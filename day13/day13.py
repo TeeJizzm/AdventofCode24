@@ -32,7 +32,7 @@ def cramer(machine, offset = 0):
     px = int(px) + offset
     py = int(py) + offset
 
-    print(f"Testing: {ax}x + {ay}y = {px}; {bx}x + {by}y = {py}")
+    #print(f"Testing: {ax}x + {ay}y = {px}; {bx}x + {by}y = {py}")
 
     d = (int(ax)*int(by))-(int(ay)*int(bx))
     d_a = (px*int(by))-(py*int(bx))
@@ -43,32 +43,6 @@ def cramer(machine, offset = 0):
         B = int(d_b / d)
     
     return A, B
-
-def findEq(machine):
-
-    ax, ay, bx, by, px, py = re.findall(r"\d+", machine)
-
-    #print(f"Testing: {ax}x + {ay}y = {px}; {bx}x + {by}y = {py}")
-
-    ab = np.array([[int(ax), int(bx)], [int(ay), int(by)]])
-    xy = np.array([int(px), int(py)])
-
-    a, b = np.linalg.solve(ab, xy)
-
-    #print("a:", a, "b:", b)
-
-    if 0 < a > 100 or 0 < b > 100:
-        a = 0
-        b = 0
-
-    elif abs(a - np.round(a) > 1e-3) or abs(b - np.round(b) > 1e-3):
-        a = 0
-        b = 0
-
-    #print("a-", np.round(a), "b-", np.round(b))
-
-    return int(np.round(a)), int(np.round((b)))
-
 
 def day13(text):
     print("Day 13 - Claw Contraption")
