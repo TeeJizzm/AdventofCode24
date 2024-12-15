@@ -114,8 +114,7 @@ def followWide(grid, instructions, start):
     location = start
 
     for instruction in instructions:
-
-
+        continue
 
 
 def wideGrid(grid):
