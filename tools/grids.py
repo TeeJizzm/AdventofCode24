@@ -22,10 +22,10 @@ def findLocs(grid, target):
 
     locations = []
 
-    for x, row in enumerate(grid):
-        for y, v in enumerate(row):
+    for r, row in enumerate(grid):
+        for c, v in enumerate(row):
             if v == target:
-                locations.append((x,y))
+                locations.append((r,c))
                 #print(target, end="")
             else:
                 #print(v, end="")
