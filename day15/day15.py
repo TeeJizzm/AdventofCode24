@@ -32,7 +32,6 @@ H = 0
 ############################
 # Functions
 
-
 def getNext(r, c, dir, i=1):
     dr, dc = dirs[dir]
     return r+(dr*i), c+(dc*i)
@@ -56,7 +55,7 @@ def blocked(grid, loc, dir):
             b = blocked(grid, (nr, nc-1), dir)
             return a or b
     else:
-        
+        return blocked(grid, (nr, nc), dir)
     
 
 def moveRobot(grid, loc, dir):
@@ -85,20 +84,21 @@ def moveRobot2(grid, loc, dir):
 
     r1, c1 = loc
 
-    for i in range(1, max(W, H)):
-        r, c = getNext(loc[0], loc[1], dir, i)
-        if 0 > r > H or 0 > c > W:
-            break
-        elif grid[r][c] == "#":
-            break
-        elif grid[r][c] == ".":
-            if i > 1:
-                grid[r][c] = "["
-            
-            r1, c1 = getNext(loc[0], loc[1], dir)
-            grid[r1][c1] = "@"
-            grid[loc[0]][loc[1]] = "."
-            break
+    if dir == "<" or dir == ">":
+        for i in range(1, max(W, H)):
+            r, c = getNext(loc[0], loc[1], dir, i)
+            if 0 > r > H or 0 > c > W:
+                break
+            elif grid[r][c] == "#":
+                break
+            elif grid[r][c] == ".":
+                if i > 1:
+                    grid[r][c] = "["
+                
+                r1, c1 = getNext(loc[0], loc[1], dir)
+                grid[r1][c1] = "@"
+                grid[loc[0]][loc[1]] = "."
+                break
 
     return r1, c1
 
@@ -108,6 +108,15 @@ def followInstructions(grid, instructions, start):
 
     for instruction in instructions:
         location = moveRobot(grid, location, instruction)
+
+def followWide(grid, instructions, start):
+
+    location = start
+
+    for instruction in instructions:
+
+
+
 
 def wideGrid(grid):
 
@@ -163,10 +172,12 @@ def day15(text):
         print(*r)
 
     robot = gr.findLocs(grid, "@")[0]
+    r2 = gr.findLocs(grid, "@")[0]
 
     instructions = re.findall(f"\^|>|v|<", instructions)
     
     followInstructions(grid, instructions, robot)
+
 
     part1 = calcGPS(grid)
     part2 = calcGPS(grid2, "[")
